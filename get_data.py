@@ -17,17 +17,22 @@ def get_data(userpath, historical, recent, hourly, verbose):
 
     #unzip the files
     print("unzipping data")
-    localdir = os.path.join(userpath,'pub','CDC','observations_germany','climate','daily','kl')
-    unzip_folder(os.path.join(localdir, 'historical'))
-    unzip_folder(os.path.join(localdir, 'recent'))
-    hour_folders = ["air_temperature", "cloud_type", "precipitation", "pressure", "soil_temperature", "solar", "sun", "visibility", "wind"]
-    for folder in hour_folders:
-        localdir = os.path.join(userpath, 'pub','CDC','observations_germany','climate','hourly', folder)
-        if folder!="solar":
+    if historical or recent:
+        localdir = os.path.join(userpath,'pub','CDC','observations_germany','climate','daily','kl')
+        if historical:
             unzip_folder(os.path.join(localdir, 'historical'))
+        if recent:
             unzip_folder(os.path.join(localdir, 'recent'))
-        else:
-            unzip_folder(localdir)
+
+    if hourly:
+        hour_folders = ["air_temperature", "cloud_type", "precipitation", "pressure", "soil_temperature", "solar", "sun", "visibility", "wind"]
+        for folder in hour_folders:
+            localdir = os.path.join(userpath, 'pub','CDC','observations_germany','climate','hourly', folder)
+            if folder!="solar":
+                unzip_folder(os.path.join(localdir, 'historical'))
+                unzip_folder(os.path.join(localdir, 'recent'))
+            else:
+                unzip_folder(localdir)
 
 
 def main():

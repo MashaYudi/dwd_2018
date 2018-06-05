@@ -7,7 +7,7 @@ try:
     console_width = shutil.get_terminal_size()[0]
 except:
     print("Using 'shutil' failed, will assume console width of 80")
-    console_width = 80 #default width
+    console_width = 80 #default terminal width
 progress_bar_width = console_width - 6
 
 server = "ftp-cdc.dwd.de"
@@ -32,9 +32,9 @@ def download_folder(ftp, userpath,foldername, verbose):
             sys.stdout.flush()
         perc = int(100*i/len(filenames))
         pperc = int(progress_bar_width*i/len(filenames)) #percentage of progressbar thats done
-        sys.stdout.write("[{}{}] {}%\r".format('='*pperc,' '*(progress_bar_width-pperc), str(perc).zfill(2)))
+        sys.stdout.write("[{}] {}%\r".format(('='*pperc).ljust(progress_bar_width), str(perc).zfill(2)))
         sys.stdout.flush()
-    sys.stdout.write("[{}] {}%\n".format('='*progress_bar_width-1, 100)) #write bar with 100%
+    sys.stdout.write("[{}] {}%\n".format('='*(progress_bar_width-1), 100)) #write bar with 100%
     sys.stdout.flush()
 
 def delete_folder(folder, verbose = True):
@@ -111,7 +111,7 @@ def get_hourly_data(userpath,ftp,verbose=True):
     if verbose: print("now downloading solar hourly data into {}".format(solarpath))
 
     if not os.path.isdir(sp):
-        if verbose: print("solarpath did not exist so it will be created")   
+        if verbose: print("solarpath did not exist so it will be created")
         os.makedirs(sp)
 
     else:
